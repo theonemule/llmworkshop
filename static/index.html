@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Workshop</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+	.toggle {
+		cursor: pointer;
+		user-select: none; /* Prevent text selection */
+	}
+	.toggle.collapsed::before {
+		content: '▼ ';
+		display: inline-block;
+		transform: rotate(0deg);
+		transition: transform 0.3s ease;
+	}
+	.toggle::before {
+		content: '▼ ';
+		display: inline-block;
+		transform: rotate(-90deg);
+		transition: transform 0.3s ease;
+	}
+</style>
+<body>
+
+<script>
+// baseUrl = "https://cloud.blaize.net/llmworkshop"
+//const baseUrl = "http://192.168.111.143:5000/"
+const baseUrl = ""
+
+ 
+function createCarousel(slides, targetDivId) {
+	const targetDiv = document.getElementById(targetDivId);
+
+	if (!targetDiv) {
+		console.error(`Div with id "${targetDivId}" not found.`);
+		return;
+	}
+
+	const carouselId = `carousel_${targetDivId}`;
+	const carouselContainer = document.createElement('div');
+	carouselContainer.classList.add('carousel', 'slide', 'carousel-container');
+	carouselContainer.setAttribute('id', carouselId);
+	carouselContainer.setAttribute('data-bs-ride', 'carousel');
+	carouselContainer.setAttribute('data-bs-interval', '3000000');
+
+	const carouselInner = document.createElement('div');
+	carouselInner.classList.add('carousel-inner');
+
+	let first = true;
+	slides.forEach(slide => {
+		const slideElement = document.createElement('div');
+		slideElement.classList.add('carousel-item');
+		if (first) {
+			slideElement.classList.add('active');
+			first = false;
+		}
+		slideElement.innerHTML = `<img src="slides/${slide}" class="d-block w-100" alt="Slide">`;
+		carouselInner.appendChild(slideElement);
+	});
+
+	// Insert inner content into the container
+	carouselContainer.appendChild(carouselInner);
+
+	// Add navigation controls
+	const prevButton = document.createElement('button');
+	prevButton.classList.add('carousel-control-prev');
+	prevButton.setAttribute('type', 'button');
+	prevButton.setAttribute('data-bs-target', `#${carouselId}`);
+	prevButton.setAttribute('data-bs-slide', 'prev');
+	prevButton.innerHTML = `
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Previous</span>
+	`;
+
+	const nextButton = document.createElement('button');
+	nextButton.classList.add('carousel-control-next');
+	nextButton.setAttribute('type', 'button');
+	nextButton.setAttribute('data-bs-target', `#${carouselId}`);
+	nextButton.setAttribute('data-bs-slide', 'next');
+	nextButton.innerHTML = `
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Next</span>
+	`;
+
+	// Append controls
+	carouselContainer.appendChild(prevButton);
+	carouselContainer.appendChild(nextButton);
+
+	// Insert carousel into target div
+	targetDiv.appendChild(carouselContainer);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+	var slideShowSlides = ['Slide2.jpg','Slide3.jpg','Slide4.jpg','Slide5.jpg','Slide6.jpg','Slide7.jpg','Slide8.jpg','Slide9.jpg','Slide11.jpg'];
+	createCarousel(slideShowSlides, 'slide1');
+	
+	slideShowSlides = ['Slide12.jpg','Slide21.jpg','Slide13.jpg','Slide14.jpg','Slide15.jpg','Slide16.jpg','Slide17.jpg','Slide18.jpg','Slide19.jpg','Slide20.jpg'];
+	createCarousel(slideShowSlides, 'slide2');	
+	
+	slideShowSlides = ['Slide23.jpg','Slide22.jpg'];
+	createCarousel(slideShowSlides, 'slide3');		
+	
+	slideShowSlides = ['Slide26.jpg','Slide27.jpg','Slide28.jpg',];
+	createCarousel(slideShowSlides, 'slide4');	
+	
+	slideShowSlides = ['Slide29.jpg','Slide30.jpg'];
+	createCarousel(slideShowSlides, 'slide5');		
+
+	slideShowSlides = ['Slide31.jpg'];
+	createCarousel(slideShowSlides, 'slide6');		
+
+	
+
+});
+
+
+
+</script>
+
+
+
+<div class="container mt-5">
+	<h3>LLM Patterns / Blaize Stewart blaize.stewart@xebia.com / LinkedIn: @techonfire</h3>
+    <!-- Tabs navigation -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#zeroShotPrompts" data-bs-toggle="tab">Zero-Shot Prompt</a>
+        </li>
+		<!--
+		<li class="nav-item">
+			<a class="nav-link" href="#tokenization" data-bs-toggle="tab">Tokenization</a>
+		</li>
+		-->
+        <li class="nav-item">
+            <a class="nav-link" href="#lab1b" data-bs-toggle="tab">Prompt Engineering</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#nl2sql" data-bs-toggle="tab">Natural Language to Code</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#vectorsearch" data-bs-toggle="tab">Vector Searches</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#ragapp" data-bs-toggle="tab">RAG App</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#transcribe" data-bs-toggle="tab">Transcribe Text</a>
+        </li>
+    </ul>
+	<div class="tab-content pt-4">
+    <!-- Tabs content -->
+       <div class="tab-pane active" id="zeroShotPrompts">
+			
+			<div id="slide1"></div>
+			
+			
+            <div class="mb-3">
+                <label for="quotePrompt" class="form-label">Provide a subject for your quote:</label>
+                <input type="text" class="form-control" id="quotePrompt" placeholder="Quote subject">
+            </div>
+            <button class="btn btn-primary" onclick="fetchQuote()">Get Inspired</button>
+            <p id="quoteDisplay" class="mt-3"></p>
+
+			<script>
+				function fetchQuote() {
+					const prompt = document.getElementById('quotePrompt').value;
+					if (!prompt) {
+						alert('Please enter a prompt.');
+						return;
+					}
+					
+					fetch(baseUrl + '/quote', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ prompt: prompt }),
+					})
+					.then(response => response.json())
+					.then(data => {
+						if (data.error) {
+							document.getElementById('quoteDisplay').textContent = 'Error: ' + data.error;
+						} else {
+							// Create a table and populate it with data
+							const resultsContainer = document.getElementById('quoteDisplay');
+							resultsContainer.innerHTML = data.quote; // Clear previous results
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						document.getElementById('quoteDisplay').textContent = 'An error occurred while fetching the quote results.';
+					});
+					
+				}
+			</script>
+
+
+				
+        </div>
+		
+		<!--
+		
+		<div class="tab-pane" id="tokenization">
+		
+			<h2>Tokenization Example</h2>
+			<div class="mb-3">
+				<label for="tokenizationPrompt" class="form-label">Enter some text to be tokenized:</label>
+				<input type="text" class="form-control" id="tokenizationPrompt" placeholder="Input text">
+			</div>
+			<button class="btn btn-primary" onclick="fetchTokens()">Get Tokens</button>
+		
+			<script>
+				function fetchTokens() {
+					const prompt = document.getElementById('tokenizationPrompt').value;
+					if (!prompt) {
+						alert('Please enter a prompt.');
+						return;
+					}
+
+					fetch(baseUrl + '/tokenize', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ prompt: prompt }),
+					})
+						.then(response => response.json())
+						.then(data => {
+							if (data.error) {
+								document.getElementById('tokenDisplay').textContent = 'Error: ' + data.error;
+							} else {
+								// Create a table and populate it with data
+								const tokenArrayContainer = document.getElementById('tokenDisplay');
+								const tokenCountContainer = document.getElementById('tokenCount');
+								tokenArrayContainer.innerHTML = data.tokens; // Clear previous results
+								tokenCountContainer.innerHTML = data.count; // Clear previous results
+							}
+						})
+						.catch(error => {
+							console.error('Error:', error);
+							document.getElementById('tokenDisplay').textContent = 'An error occurred while fetching the quote results.';
+						});
+				}
+			</script>
+		
+			<h2>Description</h2>
+			<p>Tokenize user input into and return the count of resulting tokens and show the resulting array of tokens.</p>
+
+			<h2>Details</h2>
+			<p>So that LLMs can process and understand natural language, and code, text is broken down into smaller units called tokens. A token could be anything from a word to a subword, to a character like a punctuation mark. Several tokenizers exist (Byte-Pair Encoding, WordPiece, SentencePiece) and vary in how they handle tokenization. The details of that aren't important for this training, but you need to know that input is tokenized, that context length is measured in tokens, and context length limits your input and output.</p>
+
+			<h2>Count</h2>
+			<p>The count of your input:</p>
+			<p id="tokenCount" class="mt-3"></p>
+
+			<h2>Token Array</h2>
+			<p>Here’s what your input looks like after it’s been tokenized for ingestion by the LLM:</p>
+			<p id="tokenDisplay" class="mt-3"></p>
+
+			<h2>References</h2>
+			<ul>
+				<li><a href="https://huggingface.co/docs/transformers/tokenizer_summary">Summary of the tokenizers</a></li>
+			</ul>
+
+		
+		</div>
+	
+		-->
+
+        <div class="tab-pane" id="lab1b">
+				
+	
+			<div id="slide2"></div>	
+    	
+            <div class="mb-3">
+                <input type="text" id="articleUrl" class="form-control" placeholder="Enter Wikipedia Article URL">
+            </div>
+            <div class="mb-3">
+                <textarea id="wikiPrompt" class="form-control" rows="4" placeholder="How do you want to summarize this article?"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="summarizeArticle()">Summarize</button>
+            <h4 class="mt-4">Results:</h4>
+            <div id="summary"></div>
+
+			<script>
+
+				function transformToParagraphs(text) {
+				  // Regular expression to match one or more line breaks
+				  const lineBreakRegExp = /\n+/g;
+
+				  // Replace line breaks with closing and opening `<p>` tags
+				  return text.replace(lineBreakRegExp, '</p><p>');
+
+				  // Wrap the entire text in opening and closing `<p>` tags
+				}			
+			
+				function summarizeArticle() {
+					const url = document.getElementById('articleUrl').value;
+					const prompt = document.getElementById('wikiPrompt').value;
+					if (!url||!prompt) {
+						alert('Please enter a Wikipedia article URL  and Prompt.');
+						return;
+					}
+					
+					fetch(`${baseUrl}/summarize?url=${encodeURIComponent(url)}&prompt=${prompt}`)
+						.then(response => response.json())
+						.then(data => {
+							if (data.error) {
+								document.getElementById('summary').textContent = 'Error: ' + data.error;
+							} else {
+								document.getElementById('summary').innerHTML = transformToParagraphs(data.summary);
+							}
+						})
+						.catch(error => {
+							console.error('Error:', error);
+							document.getElementById('summary').textContent = 'An error occurred while fetching the summary.';
+						});
+				}
+			</script>
+
+				
+        </div>
+		
+        <div class="tab-pane" id="nl2sql">
+		
+			<div id="slide3"></div>	
+ 
+								
+            <div class="mb-3">
+                <textarea class="form-control" id="questionText" rows="4" placeholder="Enter your question here about Jeopary..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="askQuestion()">Submit Question</button>
+			<p id="sqlQuery"></p>
+            <h4 class="mt-4">Results:</h4>
+            <div id="queryResults"></div>
+
+			<script>
+				function askQuestion() {
+					const question = document.getElementById('questionText').value;
+					if (!question) {
+						alert('Please enter a question.');
+						return;
+					}
+
+					fetch(baseUrl + '/ask_question', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ question: question }),
+					})
+					.then(response => response.json())
+					.then(data => {
+						if (data.error) {
+							document.getElementById('queryResults').textContent = 'Error: ' + data.error;
+						} else {
+							displayResults(data);
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						document.getElementById('queryResults').textContent = 'An error occurred while fetching the query results.';
+					});
+				}
+
+				function displayResults(data) {
+					const resultsContainer = document.getElementById('queryResults');				
+					resultsContainer.innerHTML = ''; // Clear previous results
+					
+					const sqlContainer = document.getElementById('sqlQuery');
+					sqlContainer.innerHTML = ''; // Clear previous results					
+
+					if (data.results.length === 0) {
+						resultsContainer.innerHTML = '<p>No results found.</p>';
+						return;
+					}
+
+					sqlContainer.innerHTML = "SQL Query: " + data.sqlQuery;
+
+					const table = document.createElement('table');
+					table.setAttribute('border', '1');
+					table.style.width = '100%';
+					table.style.borderCollapse = 'collapse';
+					table.classList.add("table");
+					
+
+					const thead = table.createTHead();
+					const headerRow = thead.insertRow();
+					const headers = ['Show Number', 'Air Date', 'Round', 'Category', 'Value', 'Question', 'Answer'];
+					headers.forEach(headerText => {
+						const headerCell = document.createElement('th');
+						headerCell.textContent = headerText;
+						headerRow.appendChild(headerCell);
+					});
+
+					const tbody = table.createTBody();
+					data.results.forEach(item => {
+						const row = tbody.insertRow();
+						const cellData = [
+							item.ShowNumber,
+							item.AirDate ? new Date(item.AirDate).toLocaleDateString() : 'N/A',
+							item.Round,
+							item.Category,
+							`$${item.Value}`,
+							item.Question, // Will handle HTML content in the next step
+							item.Answer
+						];
+						cellData.forEach((cellText, index) => {
+							const cell = row.insertCell();
+							if (index === 5) { // Assuming the Question field might contain HTML links
+								cell.innerHTML = cellText;
+							} else {
+								cell.textContent = cellText;
+							}
+						});
+					});
+
+					resultsContainer.appendChild(table);
+				}
+			</script>	
+		</div>		
+        <div class="tab-pane" id="vectorsearch">
+		
+			<div id="slide4"></div>	
+
+			
+			
+            <div class="mb-3">
+                <input type="text" class="form-control" id="searchQuery" placeholder="Enter your question here about Jeopary...">
+            </div>
+            <button class="btn btn-primary" onclick="performSearch()">Search</button>
+            <h4 class="mt-4">Results:</h4>
+            <div id="searchResults"></div>
+
+			<script>
+				function performSearch() {
+					const query = document.getElementById('searchQuery').value;
+					if (!query) {
+						alert('Please enter a search query.');
+						return;
+					}
+
+					fetch(baseUrl + '/vectorsearch', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ query: query }),
+					})
+					.then(response => response.json())
+					.then(data => {
+						if (data.error) {
+							document.getElementById('searchResults').textContent = 'Error: ' + data.error;
+						} else {
+							// Create a table and populate it with data
+							const table = createTable(data);
+							const resultsContainer = document.getElementById('searchResults');
+							resultsContainer.innerHTML = ''; // Clear previous results
+							resultsContainer.appendChild(table);
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						document.getElementById('searchResults').textContent = 'An error occurred while fetching the search results.';
+					});
+				}
+
+				function createTable(data) {
+					const table = document.createElement('table');
+					table.setAttribute('border', '1');
+					table.style.width = '100%';
+					table.style.borderCollapse = 'collapse';
+
+					// Create table header
+					const thead = table.createTHead();
+					const headerRow = thead.insertRow();
+					const headers = ['Category', 'Question', 'Answer', 'Round', 'Show Number'];
+					headers.forEach(headerText => {
+						const headerCell = document.createElement('th');
+						headerCell.textContent = headerText;
+						headerRow.appendChild(headerCell);
+					});
+
+					// Populate table body
+					const tbody = table.createTBody();
+					data.forEach(item => {
+						const row = tbody.insertRow();
+						const cellData = [item.Category, item.Question, item.Answer, item.Round, item.ShowNumber];
+						cellData.forEach(cellText => {
+							const cell = row.insertCell();
+							cell.textContent = cellText;
+						});
+					});
+
+					return table;
+				}
+			</script>
+
+        </div>
+        <div class="tab-pane" id="ragapp">
+		
+  			<div id="slide5"></div>	
+			
+			
+            <div class="mb-3">
+                <textarea class="form-control" id="resumeText" rows="4" placeholder="Enter your question about resumes here..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="searchResumes()">Submit Question</button>
+            <h4 class="mt-4">Results:</h4>
+            <div id="resumeResults"></div>
+
+			<script>
+				function searchResumes() {
+					const question = document.getElementById('resumeText').value;
+					if (!question) {
+						alert('Please enter a question.');
+						return;
+					}
+
+					fetch(baseUrl + '/rag', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ query: question }),
+					})
+					.then(response => response.json())
+					.then(data => {
+						if (data.error) {
+							document.getElementById('resumeResults').textContent = 'Error: ' + data.error;
+						} else {
+							displayResumes(data);
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						document.getElementById('resumeResults').textContent = 'An error occurred while fetching the query results.';
+					});
+				}
+
+				function displayResumes(data) {
+					const resultsContainer = document.getElementById('resumeResults');
+					resultsContainer.innerHTML = ''; // Clear previous results
+
+					if (data.length === 0) {
+						resultsContainer.innerHTML = '<p>No results found.</p>';
+						return;
+					}
+
+					const table = document.createElement('table');
+					table.setAttribute('border', '1');
+					table.style.width = '100%';
+					table.style.borderCollapse = 'collapse';
+					table.classList.add("table");
+
+					const thead = table.createTHead();
+					const headerRow = thead.insertRow();
+					const headers = ['ID', 'Category', 'Summary'];
+					headers.forEach(headerText => {
+						const headerCell = document.createElement('th');
+						headerCell.textContent = headerText;
+						headerRow.appendChild(headerCell);
+					});
+
+					const tbody = table.createTBody();
+					data.forEach(item => {
+						const row = tbody.insertRow();
+						var cell = row.insertCell();
+						cell.innerHTML = `<a href="resume?id=${item.id}&category=${item.category}" target="_blank">${item.id}</a>`
+						cell = row.insertCell();
+						cell.innerText = item.category;
+						cell = row.insertCell();
+						cell.innerText = item.answer;
+						/*const cellData = [
+							item.id,
+							item.category,
+							item.answer
+						];
+						cellData.forEach((cellText, index) => {
+							const cell = row.insertCell();
+							if (index === 0) { // Assuming the Question field might contain HTML links
+								cell.innerHTML = cellText;
+							} else {
+								cell.textContent = cellText;
+							}
+						});*/
+					});
+
+					resultsContainer.appendChild(table);
+				}
+			</script>	
+				
+		
+        </div>		
+        <div class="tab-pane" id="transcribe">
+ 
+			
+			<div id="slide6"></div>		
+
+            <div class="mb-3">
+                <textarea class="form-control" id="dictatePrompt" rows="4" placeholder="How do you  want to refine your transcription?"></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary" id="startRecordBtn">Start Recording</button>
+                <button class="btn btn-secondary" id="stopRecordBtn" disabled>Stop Recording</button>
+            </div>			
+            <h4 class="mt-4">Transcription:</h4>
+            <p id="transcription"></p>
+            <h4>Adaptation:</h4>
+            <p id="formatted"></p>
+
+			<script>
+				let mediaRecorder;
+				let audioChunks = [];
+
+				document.getElementById('startRecordBtn').addEventListener('click', function() {
+					navigator.mediaDevices.getUserMedia({ audio: true })
+						.then(stream => {
+							mediaRecorder = new MediaRecorder(stream);
+							mediaRecorder.start();
+
+							mediaRecorder.addEventListener("dataavailable", event => {
+								audioChunks.push(event.data);
+							});
+
+							this.disabled = true;
+							document.getElementById('stopRecordBtn').disabled = false;
+						});
+				});
+
+				document.getElementById('stopRecordBtn').addEventListener('click', function() {
+					mediaRecorder.stop();
+
+					mediaRecorder.addEventListener("stop", () => {
+						const audioBlob = new Blob(audioChunks, { type: 'audio/ogg' });
+						sendAudioToServer(audioBlob);
+						audioChunks = [];
+
+						document.getElementById('startRecordBtn').disabled = false;
+						this.disabled = true;
+					});
+				});
+
+				function sendAudioToServer(blob) {
+					const formData = new FormData();
+					formData.append('file', blob, 'audio.ogg');
+					formData.append('prompt', document.getElementById("dictatePrompt").value);
+
+					fetch(baseUrl + '/dictate', {
+						method: 'POST',
+						body: formData
+					})
+					.then(response => response.json())
+					.then(data => {
+						document.getElementById('transcription').textContent = data.transcription;
+						document.getElementById('formatted').textContent = data.formatted;
+					})
+					.catch(error => console.error('Error:', error));
+				}
+			</script>		
+		
+		
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
