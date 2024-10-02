@@ -51,7 +51,6 @@ Return just the SQL. No Commentary! Include all the fields. Limit the results to
     init_db()
 
 
-
     sql_query = completion.choices[0].message.content
 
     print(sql_query)
@@ -67,22 +66,30 @@ Return just the SQL. No Commentary! Include all the fields. Limit the results to
     result_data = []
     
     
-    for row in results:
-        result_data.append({
-            'ShowNumber': row[0],
-            'AirDate': row[1],
-            'Round': row[2],
-            'Category': row[3],
-            'Value': row[4],
-            'Question': row[5],
-            'Answer': row[6]
-        })
+#    for row in results:
+#        result_data.append({
+#            'ShowNumber': row[0],
+#            'AirDate': row[1],
+#            'Round': row[2],
+#            'Category': row[3],
+#            'Value': row[4],
+#            'Question': row[5],
+#            'Answer': row[6]
+#        })
 
-    # jsonify({'sqlQuery': sql_query, 'results':result_data})
+    # Get column names from cursor description
+    column_names = [desc[0] for desc in local_storage.db_cursor.description]
 
-    return jsonify({'sqlQuery': sql_query, 'results':result_data})
+    # Format and return the results as JSON
+    result_data = []
     
-    # jsonify(result_data)    
+    for row in results:
+        row_dict = {column_names[i]: row[i] for i in range(len(column_names))}
+        result_data.append(row_dict)
+        
+   return jsonify({'sqlQuery': sql_query, 'columns': column_names, 'results': result_data})
+    
+ 
 
 
     

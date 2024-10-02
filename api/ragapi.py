@@ -62,6 +62,7 @@ def ragsearch(request, client, deployment_name):
     # Extract query from request
     data = request.json
     query_text = data.get('query')
+    analysis_text = data.get('analysis')
     if not query_text:
         return jsonify({"error": "Please provide a 'query' field."}), 400
         
@@ -88,7 +89,7 @@ def ragsearch(request, client, deployment_name):
         for hit in hits:
             
 
-            answer = answer_question(query_text, hit.entity.get('resume_str'), client, deployment_name)
+            answer = answer_question(analysis_text, hit.entity.get('resume_str'), client, deployment_name)
     
     
             search_results.append({

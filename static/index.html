@@ -26,14 +26,12 @@
 	}
 </style>
 <body>
-
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-// baseUrl = "https://cloud.blaize.net/llmworkshop"
-//const baseUrl = "http://192.168.111.143:5000/"
+
 const baseUrl = ""
 
- 
-function createCarousel(slides, targetDivId) {
+ function createMarkdownCarouselFromFile(markdownFile, targetDivId) {
 	const targetDiv = document.getElementById(targetDivId);
 
 	if (!targetDiv) {
@@ -52,15 +50,41 @@ function createCarousel(slides, targetDivId) {
 	carouselInner.classList.add('carousel-inner');
 
 	let first = true;
-	slides.forEach(slide => {
-		const slideElement = document.createElement('div');
-		slideElement.classList.add('carousel-item');
-		if (first) {
-			slideElement.classList.add('active');
-			first = false;
-		}
-		slideElement.innerHTML = `<img src="slides/${slide}" class="d-block w-100" alt="Slide">`;
-		carouselInner.appendChild(slideElement);
+
+	// Function to fetch markdown and split it by H1 headings (#)
+	function fetchAndProcessMarkdown(fileName) {
+		return fetch(`slides/${fileName}`)
+			.then(response => response.text())
+			.then(markdownContent => {
+				// Split the markdown by Heading 1 markers
+				const sections = markdownContent.split(/^#\s/gm).filter(section => section.trim() !== "");
+				return sections.map((section, index) => {
+					// Add back the '#' to the first heading of each section
+					if (index === 0 && !section.startsWith('#')) {
+						return `# ${section}`;
+					}
+					return section;
+				});
+			});
+	}
+
+	// Fetch markdown file and process it into slides
+	fetchAndProcessMarkdown(markdownFile).then(sections => {
+		sections.forEach((section, index) => {
+			const slideElement = document.createElement('div');
+			slideElement.classList.add('carousel-item');
+			if (first) {
+				slideElement.classList.add('active');
+				first = false;
+			}
+
+			// Convert markdown to HTML and insert into the carousel
+			const htmlContent = marked.parse(`#${section}`); // Add back the # for the split sections
+			slideElement.innerHTML = `<div class="d-block w-100 p-4">${htmlContent}</div>`;
+			carouselInner.appendChild(slideElement);
+		});
+	}).catch(error => {
+		console.error(`Error loading markdown file: ${markdownFile}`, error);
 	});
 
 	// Insert inner content into the container
@@ -96,33 +120,17 @@ function createCarousel(slides, targetDivId) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-	var slideShowSlides = ['Slide2.jpg','Slide3.jpg','Slide4.jpg','Slide5.jpg','Slide6.jpg','Slide7.jpg','Slide8.jpg','Slide9.jpg','Slide11.jpg'];
-	createCarousel(slideShowSlides, 'slide1');
-	
-	slideShowSlides = ['Slide12.jpg','Slide21.jpg','Slide13.jpg','Slide14.jpg','Slide15.jpg','Slide16.jpg','Slide17.jpg','Slide18.jpg','Slide19.jpg','Slide20.jpg'];
-	createCarousel(slideShowSlides, 'slide2');	
-	
-	slideShowSlides = ['Slide23.jpg','Slide22.jpg'];
-	createCarousel(slideShowSlides, 'slide3');		
-	
-	slideShowSlides = ['Slide26.jpg','Slide27.jpg','Slide28.jpg',];
-	createCarousel(slideShowSlides, 'slide4');	
-	
-	slideShowSlides = ['Slide29.jpg','Slide30.jpg'];
-	createCarousel(slideShowSlides, 'slide5');		
-
-	slideShowSlides = ['Slide31.jpg'];
-	createCarousel(slideShowSlides, 'slide6');		
-
-	
-
+	// Each carousel is driven by a single markdown file, split by Heading 1 markers (#)
+	createMarkdownCarouselFromFile('slide1.md', 'slide1');
+	createMarkdownCarouselFromFile('slide2.md', 'slide2');
+	createMarkdownCarouselFromFile('slide3.md', 'slide3');
+	createMarkdownCarouselFromFile('slide4.md', 'slide4');
+	createMarkdownCarouselFromFile('slide5.md', 'slide5');
+	createMarkdownCarouselFromFile('slide6.md', 'slide6');
 });
 
 
-
 </script>
-
-
 
 <div class="container mt-5">
 	<h3>LLM Patterns / Blaize Stewart blaize.stewart@xebia.com / LinkedIn: @techonfire</h3>
@@ -131,11 +139,6 @@ document.addEventListener("DOMContentLoaded", function() {
         <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#zeroShotPrompts" data-bs-toggle="tab">Zero-Shot Prompt</a>
         </li>
-		<!--
-		<li class="nav-item">
-			<a class="nav-link" href="#tokenization" data-bs-toggle="tab">Tokenization</a>
-		</li>
-		-->
         <li class="nav-item">
             <a class="nav-link" href="#lab1b" data-bs-toggle="tab">Prompt Engineering</a>
         </li>
@@ -160,10 +163,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			
 			
             <div class="mb-3">
-                <label for="quotePrompt" class="form-label">Provide a subject for your quote:</label>
-                <input type="text" class="form-control" id="quotePrompt" placeholder="Quote subject">
+                <label for="quotePrompt" class="form-label">Enter your prmpt here:</label>
+                <input type="text" class="form-control" id="quotePrompt" placeholder="What is the capital of Spain?">
             </div>
-            <button class="btn btn-primary" onclick="fetchQuote()">Get Inspired</button>
+            <button class="btn btn-primary" onclick="fetchQuote()">Learn About Prompting</button>
             <p id="quoteDisplay" class="mt-3"></p>
 
 			<script>
@@ -202,75 +205,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 				
         </div>
-		
-		<!--
-		
-		<div class="tab-pane" id="tokenization">
-		
-			<h2>Tokenization Example</h2>
-			<div class="mb-3">
-				<label for="tokenizationPrompt" class="form-label">Enter some text to be tokenized:</label>
-				<input type="text" class="form-control" id="tokenizationPrompt" placeholder="Input text">
-			</div>
-			<button class="btn btn-primary" onclick="fetchTokens()">Get Tokens</button>
-		
-			<script>
-				function fetchTokens() {
-					const prompt = document.getElementById('tokenizationPrompt').value;
-					if (!prompt) {
-						alert('Please enter a prompt.');
-						return;
-					}
-
-					fetch(baseUrl + '/tokenize', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({ prompt: prompt }),
-					})
-						.then(response => response.json())
-						.then(data => {
-							if (data.error) {
-								document.getElementById('tokenDisplay').textContent = 'Error: ' + data.error;
-							} else {
-								// Create a table and populate it with data
-								const tokenArrayContainer = document.getElementById('tokenDisplay');
-								const tokenCountContainer = document.getElementById('tokenCount');
-								tokenArrayContainer.innerHTML = data.tokens; // Clear previous results
-								tokenCountContainer.innerHTML = data.count; // Clear previous results
-							}
-						})
-						.catch(error => {
-							console.error('Error:', error);
-							document.getElementById('tokenDisplay').textContent = 'An error occurred while fetching the quote results.';
-						});
-				}
-			</script>
-		
-			<h2>Description</h2>
-			<p>Tokenize user input into and return the count of resulting tokens and show the resulting array of tokens.</p>
-
-			<h2>Details</h2>
-			<p>So that LLMs can process and understand natural language, and code, text is broken down into smaller units called tokens. A token could be anything from a word to a subword, to a character like a punctuation mark. Several tokenizers exist (Byte-Pair Encoding, WordPiece, SentencePiece) and vary in how they handle tokenization. The details of that aren't important for this training, but you need to know that input is tokenized, that context length is measured in tokens, and context length limits your input and output.</p>
-
-			<h2>Count</h2>
-			<p>The count of your input:</p>
-			<p id="tokenCount" class="mt-3"></p>
-
-			<h2>Token Array</h2>
-			<p>Here’s what your input looks like after it’s been tokenized for ingestion by the LLM:</p>
-			<p id="tokenDisplay" class="mt-3"></p>
-
-			<h2>References</h2>
-			<ul>
-				<li><a href="https://huggingface.co/docs/transformers/tokenizer_summary">Summary of the tokenizers</a></li>
-			</ul>
-
-		
-		</div>
-	
-		-->
 
         <div class="tab-pane" id="lab1b">
 				
@@ -281,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <input type="text" id="articleUrl" class="form-control" placeholder="Enter Wikipedia Article URL">
             </div>
             <div class="mb-3">
-                <textarea id="wikiPrompt" class="form-control" rows="4" placeholder="How do you want to summarize this article?"></textarea>
+                <textarea id="wikiPrompt" class="form-control" rows="4" placeholder="What do you want to do witht this article?"></textarea>
             </div>
             <button class="btn btn-primary" onclick="summarizeArticle()">Summarize</button>
             <h4 class="mt-4">Results:</h4>
@@ -389,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					table.classList.add("table");
 					
 
-					const thead = table.createTHead();
+					/*const thead = table.createTHead();
 					const headerRow = thead.insertRow();
 					const headers = ['Show Number', 'Air Date', 'Round', 'Category', 'Value', 'Question', 'Answer'];
 					headers.forEach(headerText => {
@@ -420,7 +354,37 @@ document.addEventListener("DOMContentLoaded", function() {
 						});
 					});
 
+					resultsContainer.appendChild(table);*/arguments
+
+					const thead = table.createTHead();
+					const headerRow = thead.insertRow();
+					const headers = data.columns; // Use column names from the server response
+					headers.forEach(headerText => {
+						const headerCell = document.createElement('th');
+						headerCell.textContent = headerText;
+						headerRow.appendChild(headerCell);
+					});
+
+					const tbody = table.createTBody();
+					data.results.forEach(item => {
+						const row = tbody.insertRow();
+						headers.forEach((header, index) => {
+							const cell = row.insertCell();
+							let cellText = item[header];
+							if (header === 'AirDate' && cellText) {
+								cellText = new Date(cellText).toLocaleDateString();
+							} else if (header === 'Value') {
+								cellText = `$${cellText}`;
+							} else if (header === 'Question') { // Assuming the Question field might contain HTML links
+								cell.innerHTML = cellText;
+								return;
+							}
+							cell.textContent = cellText || 'N/A';
+						});
+					});
+
 					resultsContainer.appendChild(table);
+
 				}
 			</script>	
 		</div>		
@@ -508,7 +472,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			
 			
             <div class="mb-3">
-                <textarea class="form-control" id="resumeText" rows="4" placeholder="Enter your question about resumes here..."></textarea>
+                <textarea class="form-control" id="resumeText" rows="4" placeholder="Enter your search prmpt here..."></textarea>
+            </div>
+            <div class="mb-3">
+                <textarea class="form-control" id="analysisText" rows="4" placeholder="Enter your analysis prompt here..."></textarea>
             </div>
             <button class="btn btn-primary" onclick="searchResumes()">Submit Question</button>
             <h4 class="mt-4">Results:</h4>
@@ -517,6 +484,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			<script>
 				function searchResumes() {
 					const question = document.getElementById('resumeText').value;
+					const analysis = document.getElementById('analysisText').value;
 					if (!question) {
 						alert('Please enter a question.');
 						return;
@@ -527,7 +495,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						headers: {
 							'Content-Type': 'application/json',
 						},
-						body: JSON.stringify({ query: question }),
+						body: JSON.stringify({ query: question, analysis:analysis }),
 					})
 					.then(response => response.json())
 					.then(data => {
