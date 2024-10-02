@@ -28,5 +28,9 @@ COPY static static
 COPY app.py /app.py
 COPY start.sh start.sh
 
+# Make start.sh executable.
+
+RUN chmod +x start.sh
+
 # This CMD instruction might need to be replaced or supplemented by a more complex startup script that can handle starting the server in the background and then executing your Python scripts.
 CMD ["sh", "-c", "/start.sh"]
