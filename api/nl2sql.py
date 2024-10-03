@@ -86,9 +86,9 @@ Return just the SQL. No Commentary! Include all the fields. Limit the results to
     for row in results:
         row_dict = {column_names[i]: row[i] for i in range(len(column_names))}
         result_data.append(row_dict)
-        
-   return jsonify({'sqlQuery': sql_query, 'columns': column_names, 'results': result_data})
-    
+
+    return jsonify({'sqlQuery': sql_query, 'columns': column_names, 'results': result_data})
+ 
  
 
 
