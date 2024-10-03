@@ -1,4 +1,9 @@
-Objective: The lab that explores different kinds of prompting while summarizing a Wikipedia article.
+# Objective: The lab that explores different kinds of prompting while summarizing a Wikipedia article.
+
+# ![Image](slides/Slide22.JPG)
+# ![Image](slides/Slide23.JPG)
+
+
 
 # **1. Choose a Wikipedia Article**
 

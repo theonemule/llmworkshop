@@ -17,20 +17,16 @@ RUN pip3 install flask openai whisper werkzeug BeautifulSoup4 tiktoken pymilvus 
 # Copy your Python scripts into the container
 COPY data data
 
-RUN cd data && ls && chmod +x import-data.sh && bash import-data.sh && cd /
+RUN cd /data && chmod +x import-data.sh && ./import-data.sh && cd /
 
 # Expose the port your app runs on
 EXPOSE 5000
 
 # Move app files
-COPY api /api
-COPY static /static
+COPY api api
+COPY static static
 COPY app.py /app.py
-COPY start.sh /start.sh
-
-# Make start.sh executable.
-
-RUN ls && chmod +x /start.sh
+COPY start.sh start.sh
 
 # This CMD instruction might need to be replaced or supplemented by a more complex startup script that can handle starting the server in the background and then executing your Python scripts.
 CMD ["sh", "-c", "/start.sh"]

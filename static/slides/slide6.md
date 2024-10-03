@@ -1,5 +1,8 @@
 # These lab exerciuses guide participants through using Whisper to transcribe text and then passing the Sample Transcription to an LLM for refinement or processing.
 
+# ![Image](slides/Slide36.JPG)
+# ![Image](slides/Slide37.JPG)
+
 # **1. Basic Transcription and Text Refinement**
 
 Transcribe audio using Whisper and improve the clarity and grammar of the Sample Transcription using an LLM.
