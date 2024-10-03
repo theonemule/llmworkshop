@@ -1,8 +1,11 @@
 # These lab exercises use prompt patterns for searching and analyzing obfuscated resumes in a vector database (Milvus) with a RAG app. Each exercise will first involve searching the resumes, followed by analyzing the matched results.
 
-# ![Image](images/Slide33.JPG)
-# ![Image](images/Slide34.JPG)
-# ![Image](images/Slide35.JPG)
+#
+![Image](images/Slide33.JPG)
+#
+![Image](images/Slide34.JPG)
+#
+![Image](images/Slide35.JPG)
 
 
 # **1. Perform a simple search using zero-shot prompting to find resumes with specific skills.**
