@@ -7,7 +7,7 @@
 
 # **1. Create a simple filter.** 
 
-**Prompt:** "Show all trivia questions in the 'Science' category."**
+**Prompt:** "Show all trivia questions in the 'Science' category."
 
 **Possible Output** (Executed Automatically):
    ```sql
