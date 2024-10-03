@@ -1,9 +1,9 @@
 # This set of lab exercises uses natural language to search a vector database (Milvus) containing concatenated embeddings of trivia data, utilizing different prompting patterns.
 
-# ![Image](slides/Slide29.JPG)
-# ![Image](slides/Slide30.JPG)
-# ![Image](slides/Slide31.JPG)
-# ![Image](slides/Slide32.JPG)
+# ![Image](images/Slide29.JPG)
+# ![Image](images/Slide30.JPG)
+# ![Image](images/Slide31.JPG)
+# ![Image](images/Slide32.JPG)
 
 # **1. Perform a simple search using zero-shot prompting to find trivia questions related to a specific topic.**
 

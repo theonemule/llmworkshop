@@ -1,7 +1,7 @@
 # Objective: The lab that explores different kinds of prompting while summarizing a Wikipedia article.
 
-# ![Image](slides/Slide22.JPG)
-# ![Image](slides/Slide23.JPG)
+# ![Image](images/Slide22.JPG)
+# ![Image](images/Slide23.JPG)
 
 
 
