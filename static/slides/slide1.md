@@ -1,5 +1,17 @@
 **Objective**: Explore how a large language model (LLM) can generate responses based on a given prompt without prior training or examples (zero-shot prompting).
 
+# ![Image](slides/Slide3.JPG)
+# ![Image](slides/Slide4.JPG)
+# ![Image](slides/Slide5.JPG)
+# ![Image](slides/Slide6.JPG)
+# ![Image](slides/Slide7.JPG)
+# ![Image](slides/Slide8.JPG)
+# ![Image](slides/Slide9.JPG)
+# ![Image](slides/Slide10.JPG)
+# ![Image](slides/Slide11.JPG)
+# ![Image](slides/Slide12.JPG)
+# ![Image](slides/Slide13.JPG)
+
 # **1. Understanding Zero-Shot Prompting**
 
 In zero-shot prompting, the model generates responses or performs tasks based on a description or instruction without needing any examples or pre-training on specific tasks. You're simply giving the model a natural language request, and it tries to complete it.

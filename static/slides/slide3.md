@@ -1,5 +1,7 @@
 # Objective: Demonstrate how LLMs can generate executable code from natural language prompting
 
+# ![Image](slides/Slide24.JPG)
+# ![Image](slides/Slide25.JPG)
 
 # **1. Create a simple filter.** 
 
