@@ -26,7 +26,7 @@ To run this project, you need to set the following environment variables:
 1. Clone the repository:
     ```sh
     git clone https://github.com/theonemule/llmworkshop.git
-    cd ai-demos-api
+    cd llmworkshop
     ```
 
 ## Building the Docker Container
@@ -35,14 +35,12 @@ To build and run the Docker container for this project, follow these steps:
 
 2. **Ensure Docker is installed** on your machine. You can download and install Docker from [here](https://www.docker.com/get-started).
 
-3. **Navigate to the project directory** where the `Dockerfile` is located.
-
-4. **Build the Docker image** using the following command:
+3. **Build the Docker image** using the following command:
     ```sh
     docker build -t ai-demos-api .
     ```
 
-6. **Run the Docker container** using the following command:
+4. **Run the Docker container** using the following command:
     ```sh
     docker run -d -p 5000:5000 --name ai-demos-api-container \
         -e AZURE_OPENAI_API_KEY="YOUR_AZURE_OPENAI_KEY" \
