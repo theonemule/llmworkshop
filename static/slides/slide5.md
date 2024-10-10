@@ -7,6 +7,15 @@
 #
 ![Image](images/Slide35.JPG)
 
+# # About the RAG underpinnings.
+
+The example here uses BERT as an embedding model, but uses GPT 3.5 to analyze the results according to what you instruct the model to do.
+
+GPT 3.5 uses the follwing system prompt:
+
+```
+You are a search assistant. The user will submit just one resume per request. Use that one resume to answer this question: [Your Analysis Prompt Here]
+```
 
 # **1. Perform a simple search using zero-shot prompting to find resumes with specific skills.**
 

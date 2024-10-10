@@ -8,27 +8,44 @@
 ![Image](images/Slide31.JPG)
 #
 ![Image](images/Slide32.JPG)
+#
+![Image](images/Slide38.JPG)
+#
+![Image](images/Slide39.JPG)
+#
+![Image](images/Slide40.JPG)
+#
+![Image](images/Slide41.JPG)
+#
+![Image](images/Slide42.JPG)
 
-# **1. Perform a simple search using zero-shot prompting to find trivia questions related to a specific topic.**
+# About the BERT Model:
 
-Prompt: "Find trivia questions about World War II."
+BERT (Bidirectional Encoder Representations from Transformers) is a pre-trained deep learning model that excels at understanding the context and relationships between words in a sentence by considering both the left and right context simultaneously. While it's an older model, it's still widely used for natural language processing tasks like question answering, semantic search, and text classification becuase it its relatively compact size and speed. However, when it comes to **negative prompting** where the goal is to exclude certain information or focus on results that lack specific features—it isn't inherently well-equipped for handling these scenarios in a straightforward manner.
 
-# **2. Use a few examples to guide the search for similar trivia questions (Few-Shot Learning Pattern).**
+# **1. Perform a simple search to find trivia questions related to a specific topic.**
 
-Prompt:  
-"Here are two examples of questions:  
-Example 1: 'Who was the president of the United States during World War II?'  
-Example 2: 'What year did World War II end?'  
-Now, find more trivia questions about wars."
+Note: These exercises simply return results without actually analyzing the results. You'll see analysis when dealing with RAG apps.
 
-# **3. Use a persona-based prompt to influence the search results (Persona Pattern).**
+Example Prompt: "Find trivia questions about World War II."
 
-Prompt:  
-"You are a history professor. Find trivia questions related to major historical events from the 20th century."
+# **2. Perform a search to find trivia questions that contain similar words or phrases.**
 
-# **4. Ensure the prompt follows certain guardrails by avoiding specific content (Safety and Guardrails Pattern).**
+Example Prompt: "Find trivia questions with similar words to 'election' and 'government.'"
 
-Prompt:  
-"Find trivia questions related to science, but avoid any questions related to biology."
+# **3. Search for trivia questions that are contextually similar to a specific question.**
 
+Example Prompt: "Find trivia questions similar to 'Who was the first president of the United States?'"
+
+# **4. Find trivia questions based on a broad category and compare semantic similarity.**
+
+Example Prompt: "Show trivia questions related to the category 'Science,' and more specifically space exploration."
+
+# **5. Perform a search for trivia questions by combining multiple related topics.**
+
+Example Prompt: "Find trivia questions about both ancient civilizations and famous wars."
+
+# **6. Search for trivia questions that mention historical figures but not by name.**
+
+Example Prompt: "Find trivia questions about a famous U.S. president who helped abolish slavery."
 
