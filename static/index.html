@@ -197,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						return;
 					}
 					
+					showLoadingSpinner();
 					
 					fetch(baseUrl + '/quote', {
 						method: 'POST',
@@ -264,6 +265,8 @@ document.addEventListener("DOMContentLoaded", function() {
 						alert('Please enter a Wikipedia article URL  and Prompt.');
 						return;
 					}
+
+					showLoadingSpinner();
 					
 					fetch(`${baseUrl}/summarize?url=${encodeURIComponent(url)}&prompt=${prompt}`)
 						.then(response => response.json())
@@ -308,6 +311,8 @@ document.addEventListener("DOMContentLoaded", function() {
 						alert('Please enter a question.');
 						return;
 					}
+
+					showLoadingSpinner();
 
 					fetch(baseUrl + '/ask_question', {
 						method: 'POST',
@@ -441,6 +446,8 @@ document.addEventListener("DOMContentLoaded", function() {
 						return;
 					}
 
+					showLoadingSpinner();
+
 					fetch(baseUrl + '/vectorsearch', {
 						method: 'POST',
 						headers: {
@@ -525,6 +532,8 @@ document.addEventListener("DOMContentLoaded", function() {
 						alert('Please enter a question.');
 						return;
 					}
+
+					showLoadingSpinner();
 
 					fetch(baseUrl + '/rag', {
 						method: 'POST',
@@ -658,6 +667,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					const formData = new FormData();
 					formData.append('file', blob, 'audio.ogg');
 					formData.append('prompt', document.getElementById("dictatePrompt").value);
+
+					showLoadingSpinner();
 
 					fetch(baseUrl + '/dictate', {
 						method: 'POST',
