@@ -24,10 +24,29 @@
 		transform: rotate(-90deg);
 		transition: transform 0.3s ease;
 	}
+
+	#loadingSpinner {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 1000;
+  	}	
 </style>
 <body>
+<div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+	<span class="visually-hidden">Loading...</span>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
+
+function showLoadingSpinner() {
+  document.getElementById('loadingSpinner').style.display = 'block';
+}
+
+function hideLoadingSpinner() {
+  document.getElementById('loadingSpinner').style.display = 'none';
+}	
 
 const baseUrl = ""
 
@@ -53,6 +72,7 @@ const baseUrl = ""
 
 	// Function to fetch markdown and split it by H1 headings (#)
 	function fetchAndProcessMarkdown(fileName) {
+		
 		return fetch(`slides/${fileName}`)
 			.then(response => response.text())
 			.then(markdownContent => {
@@ -163,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			
 			
             <div class="mb-3">
-                <label for="quotePrompt" class="form-label">Enter your prmpt here:</label>
+                <label for="quotePrompt" class="form-label">Enter your prompt here:</label>
                 <input type="text" class="form-control" id="quotePrompt" placeholder="What is the capital of Spain?">
             </div>
             <button class="btn btn-primary" onclick="fetchQuote()">Learn About Prompting</button>
@@ -176,6 +196,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						alert('Please enter a prompt.');
 						return;
 					}
+					
 					
 					fetch(baseUrl + '/quote', {
 						method: 'POST',
@@ -197,7 +218,10 @@ document.addEventListener("DOMContentLoaded", function() {
 					.catch(error => {
 						console.error('Error:', error);
 						document.getElementById('quoteDisplay').textContent = 'An error occurred while fetching the quote results.';
-					});
+					})
+					.finally(() => {
+						hideLoadingSpinner();
+					});					
 					
 				}
 			</script>
@@ -253,7 +277,11 @@ document.addEventListener("DOMContentLoaded", function() {
 						.catch(error => {
 							console.error('Error:', error);
 							document.getElementById('summary').textContent = 'An error occurred while fetching the summary.';
-						});
+						})
+						.finally(() => {
+						hideLoadingSpinner();
+					});					
+						
 				}
 			</script>
 
@@ -299,7 +327,11 @@ document.addEventListener("DOMContentLoaded", function() {
 					.catch(error => {
 						console.error('Error:', error);
 						document.getElementById('queryResults').textContent = 'An error occurred while fetching the query results.';
-					});
+					})
+					.finally(() => {
+						hideLoadingSpinner();
+					});					
+
 				}
 
 				function displayResults(data) {
@@ -431,7 +463,11 @@ document.addEventListener("DOMContentLoaded", function() {
 					.catch(error => {
 						console.error('Error:', error);
 						document.getElementById('searchResults').textContent = 'An error occurred while fetching the search results.';
-					});
+					})
+					.finally(() => {
+						hideLoadingSpinner();
+					});					
+
 				}
 
 				function createTable(data) {
@@ -472,7 +508,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			
 			
             <div class="mb-3">
-                <textarea class="form-control" id="resumeText" rows="4" placeholder="Enter your search prmpt here..."></textarea>
+                <textarea class="form-control" id="resumeText" rows="4" placeholder="Enter your search prompt here..."></textarea>
             </div>
             <div class="mb-3">
                 <textarea class="form-control" id="analysisText" rows="4" placeholder="Enter your analysis prompt here..."></textarea>
@@ -508,7 +544,11 @@ document.addEventListener("DOMContentLoaded", function() {
 					.catch(error => {
 						console.error('Error:', error);
 						document.getElementById('resumeResults').textContent = 'An error occurred while fetching the query results.';
-					});
+					})
+					.finally(() => {
+						hideLoadingSpinner();
+					});					
+
 				}
 
 				function displayResumes(data) {
@@ -628,7 +668,11 @@ document.addEventListener("DOMContentLoaded", function() {
 						document.getElementById('transcription').textContent = data.transcription;
 						document.getElementById('formatted').textContent = data.formatted;
 					})
-					.catch(error => console.error('Error:', error));
+					.catch(error => console.error('Error:', error))
+					.finally(() => {
+						hideLoadingSpinner();
+					});					
+
 				}
 			</script>		
 		
