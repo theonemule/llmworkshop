@@ -32,10 +32,16 @@
 		transform: translate(-50%, -50%);
 		z-index: 1000;
   	}	
+
+	#loadingSpinner img {
+		width: 100px; /* Adjust the width as needed */
+		height: 100px; /* Adjust the height as needed */
+	}
+
 </style>
 <body>
-<div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
-  <span class="visually-hidden">Loading...</span>
+<div id="loadingSpinner" style="display: none;">
+<img src="https://i.gifer.com/ZZ5H.gif" alt="Loading...">
 </div>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
