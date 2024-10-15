@@ -3,9 +3,9 @@
 Note: If the queries don't work, try again or try tweaking your prompt. LLMs are not deterministic, so you may get different results even with the same prompt.
 
 #
-![Image](images/Slide24.JPG)
+![Image](images/Slide34.JPG)
 #
-![Image](images/Slide25.JPG)
+![Image](images/Slide35.JPG)
 
 # The System Prompt
 

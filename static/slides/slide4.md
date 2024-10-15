@@ -1,23 +1,33 @@
 # This set of lab exercises uses natural language to search a vector database (Milvus) containing concatenated embeddings of trivia data, utilizing different prompting patterns.
 
 #
-![Image](images/Slide29.JPG)
-#
-![Image](images/Slide30.JPG)
-#
-![Image](images/Slide31.JPG)
-#
-![Image](images/Slide32.JPG)
-#
-![Image](images/Slide38.JPG)
-#
-![Image](images/Slide39.JPG)
-#
 ![Image](images/Slide40.JPG)
 #
 ![Image](images/Slide41.JPG)
 #
 ![Image](images/Slide42.JPG)
+#
+![Image](images/Slide43.JPG)
+#
+![Image](images/Slide44.JPG)
+#
+![Image](images/Slide45.JPG)
+#
+![Image](images/Slide46.JPG)
+#
+![Image](images/Slide47.JPG)
+#
+![Image](images/Slide48.JPG)
+#
+![Image](images/Slide49.JPG)
+#
+![Image](images/Slide50.JPG)
+#
+![Image](images/Slide51.JPG)
+#
+![Image](images/Slide52.JPG)
+#
+![Image](images/Slide53.JPG)
 
 # About the BERT Model:
 

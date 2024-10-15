@@ -1,25 +1,21 @@
 **Objective**: Explore how a large language model (LLM) can generate responses based on a given prompt without prior training or examples (zero-shot prompting).
 
 #
-![Image](images/Slide3.JPG)
-#
-![Image](images/Slide4.JPG)
-#
-![Image](images/Slide5.JPG)
-#
-![Image](images/Slide6.JPG)
-#
-![Image](images/Slide7.JPG)
-#
 ![Image](images/Slide8.JPG)
-#
-![Image](images/Slide9.JPG)
 #
 ![Image](images/Slide10.JPG)
 #
-![Image](images/Slide12.JPG)
+![Image](images/Slide11.JPG)
 #
 ![Image](images/Slide13.JPG)
+#
+![Image](images/Slide18.JPG)
+#
+![Image](images/Slide19.JPG)
+#
+![Image](images/Slide20.JPG)
+#
+![Image](images/Slide21.JPG)
 
 # **1. Understanding Zero-Shot Prompting**
 
